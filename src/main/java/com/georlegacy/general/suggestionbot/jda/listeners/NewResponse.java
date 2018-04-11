@@ -22,7 +22,7 @@ public class NewResponse extends ListenerAdapter {
         if (e.getAuthor().isBot()) return;
         System.out.println("not bot");
         StringBuilder b = new StringBuilder();
-        e.getChannel().getHistoryBefore(e.getMessageId(), 1).queue((messageHistory) -> b.append(messageHistory.getRetrievedHistory().get(1).getContentRaw()));
+        e.getChannel().getHistoryBefore(e.getMessageId(), 1).queue((messageHistory) -> b.append(messageHistory.getRetrievedHistory().get(0).getContentRaw()));
         if (!sb.getCanRespond().canRespond(e.getAuthor(), b.toString().split("SuggestionID: ")[b.toString().split("SuggestionID: ").length-1])) return;
         System.out.println(b.toString());
         if (e.getMessage().getContentRaw().equalsIgnoreCase(sb.getDiscordConfig().getPrefix()+"cancel")) {
