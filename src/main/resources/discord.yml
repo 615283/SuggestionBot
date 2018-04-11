@@ -1,0 +1,16 @@
+# Create a bot on the discord website and paste the token below, make sure it is a bot user
+BotToken: IAMNOTSTUPIDENOUGHTOGIVETHISOUT
+
+# Copy the ID of the channel for your suggestions channel, this will be the only channel that the bot uses
+SuggestionChannelID: whateverthehellurchannelidis
+
+# This denotes what users have to type at the beginning of a suggestion, will automatically be enclosed in square brackets ([])
+# This is not case sensitive when users type it
+SuggestionPrefix: SUGGESTION
+
+# This is the prefix for any commands that the bot uses, such as cancel in the pm to cancel a response to a suggestion.
+# Make sure to keep the single quotations ('') around this option since it is likely to contain a character such as ! or ?
+CommandPrefix: '-'
+
+# If this is set the true, any reactions other than WHITE_CHECK_MARK, X, and GREY_QUESTION
+DenyOtherReactions: true

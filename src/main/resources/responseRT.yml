@@ -1,0 +1,9 @@
+# Do not change any of the values below, these are used as runtime and if these are changed there is a possibility that your whole discord server will be ruined
+
+#-------EXAMPLE SECTION------- (ends after ExUser entry)
+# Note:uid
+ExUser:
+  #Note:mid
+  Suggestion6SAMPLE: true
+  #Note:mid
+  TmRde63: false

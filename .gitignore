@@ -1,0 +1,5 @@
+target
+*.iml
+.idea
+.gitattributes
+dependency-reduced-pom.xml
