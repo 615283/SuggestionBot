@@ -5,6 +5,7 @@ import net.dv8tion.jda.core.events.message.guild.react.GuildMessageReactionAddEv
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.awt.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ResponseReaction extends ListenerAdapter {
     private SuggestionBotBukkit sb;
@@ -22,13 +23,13 @@ public class ResponseReaction extends ListenerAdapter {
             return;
         }
         if (e.getReactionEmote().getName().equals("❔")) {
-            StringBuilder b = new StringBuilder();
-            e.getChannel().getMessageById(e.getMessageId()).queue(message -> b.append(message.getContentRaw()));
+            AtomicReference<String> content = new AtomicReference<String>();
+            e.getChannel().getMessageById(e.getMessageId()).queue(message -> content.set(message.getContentRaw()));
             e.getUser().openPrivateChannel().queue(
                     (channel) -> channel.sendMessage(sb.getEmbedUtil().buildEmbed(
                             new Color(114, 160, 255),
                             "**Respond to suggestion**",
-                            "To submit a response to the suggestion you reacted to, simply type your response below or type `"+sb.getDiscordConfig().getPrefix()+"cancel` and anything sent here will not be taken as a repsonse.\n\n The current suggestion that you are responding to is as follows: \n*"+b.toString()+"*\nSuggestionID: "+e.getMessageId(),
+                            "To submit a response to the suggestion you reacted to, simply type your response below or type `"+sb.getDiscordConfig().getPrefix()+"cancel` and anything sent here will not be taken as a repsonse.\n\n The current suggestion that you are responding to is as follows: \n`"+content.get()+"`\nSuggestionID: `"+e.getMessageId()+"`",
                             null,
                             "https://i.imgur.com/ffccqpL.png",
                             null,

@@ -20,10 +20,7 @@ public class DiscordConfig {
         if (!new File(sb.getDataFolder()+File.separator+"discord.yml").exists()) {
             sb.saveResource("discord.yml", true);
         }
-        if (!new File(sb.getDataFolder()+File.separator+"runtime").exists()) {
-            new File(sb.getDataFolder()+File.separator+"runtime").mkdirs();
-        }
-        if (!new File(sb.getDataFolder()+File.separator+"runtime"+File.separator+"responseRT").exists()) {
+        if (!new File(sb.getDataFolder()+File.separator+"responseRT").exists()) {
             sb.saveResource("responseRT.yml", true);
         }
     }

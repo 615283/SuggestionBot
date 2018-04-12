@@ -6,6 +6,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.awt.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class NewResponse extends ListenerAdapter {
     private SuggestionBotBukkit sb;
@@ -16,15 +17,13 @@ public class NewResponse extends ListenerAdapter {
     @SuppressWarnings("unused")
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
-        System.out.println("in event");
         if (!e.getChannel().getType().equals(ChannelType.PRIVATE)) return;
-        System.out.println("in private");
         if (e.getAuthor().isBot()) return;
-        System.out.println("not bot");
-        StringBuilder b = new StringBuilder();
-        e.getChannel().getHistoryBefore(e.getMessageId(), 1).queue((messageHistory) -> b.append(messageHistory.getRetrievedHistory().get(0).getEmbeds().get(0).getDescription()));
-        if (!sb.getCanRespond().canRespond(e.getAuthor(), b.toString().split("SuggestionID: ")[b.toString().split("SuggestionID: ").length-1])) return;
-        System.out.println(b.toString());
+        AtomicReference<String> content = new AtomicReference<String>();
+        e.getChannel().getHistoryBefore(e.getMessageId(), 1).queue((messageHistory) -> content.set(messageHistory.getRetrievedHistory().get(0).getEmbeds().get(0).getDescription()));
+        System.out.println(content.get());
+        if (!sb.getCanRespond().canRespond(e.getAuthor(), content.get().split("SuggestionID: ")[content.get().split("SuggestionID: ").length-1].replaceAll("`", ""))) return;
+        System.out.println(content.get());
         if (e.getMessage().getContentRaw().equalsIgnoreCase(sb.getDiscordConfig().getPrefix()+"cancel")) {
             System.out.println("is cancel");
             e.getChannel().sendMessage(sb.getEmbedUtil().buildEmbed(
@@ -37,7 +36,7 @@ public class NewResponse extends ListenerAdapter {
                     "SuggestionsBot",
                     "https://i.imgur.com/8mLH1hi.png"))
                     .queue();
-            sb.getCanRespond().denyRespond(e.getAuthor(), b.toString().split("SuggestionID: ")[b.toString().split("SuggestionID: ").length-1]);
+            sb.getCanRespond().denyRespond(e.getAuthor(), content.get().split("SuggestionID: ")[content.get().split("SuggestionID: ").length-1].replaceAll("`", ""));
         } else {
             e.getChannel().sendMessage(sb.getEmbedUtil().buildEmbed(
                     new Color(114, 160, 255),
@@ -49,7 +48,7 @@ public class NewResponse extends ListenerAdapter {
                     "SuggestionsBot",
                     "https://i.imgur.com/8mLH1hi.png"))
                     .queue();
-            sb.getCanRespond().denyRespond(e.getAuthor(), b.toString().split("SuggestionID: ")[b.toString().split("SuggestionID: ").length-1]);
+            sb.getCanRespond().denyRespond(e.getAuthor(), content.get().split("SuggestionID: ")[content.get().split("SuggestionID: ").length-1]);
         }
     }
 }
